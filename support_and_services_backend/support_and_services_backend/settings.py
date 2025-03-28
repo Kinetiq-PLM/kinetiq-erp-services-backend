@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     "service_order",
     "service_delivery_order",
     "service_billing",
+    "after_analysis",
 
     "rest_framework",
     "corsheaders",
