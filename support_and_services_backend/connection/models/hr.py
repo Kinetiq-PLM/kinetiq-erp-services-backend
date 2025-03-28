@@ -2,7 +2,7 @@ from django.db import models
 
 class Department(models.Model):
     class Meta:
-        #managed = False
+        managed = False
         db_table = '"human_resources"."departments"'
 
     dept_id = models.CharField(primary_key=True, max_length=255, editable=False) 
@@ -10,7 +10,7 @@ class Department(models.Model):
 
 class Employee(models.Model):
     class Meta:
-        #managed = False
+        managed = False
         db_table = '"human_resources"."employees"'
     
     employee_id = models.CharField(primary_key=True, max_length=255, editable=False)  

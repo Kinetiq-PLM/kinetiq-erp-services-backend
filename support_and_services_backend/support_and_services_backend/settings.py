@@ -45,6 +45,9 @@ INSTALLED_APPS = [
     "service_analysis",
     "service_contract",
     "service_report",
+    "service_order",
+    "service_delivery_order",
+    "service_billing",
 
     "rest_framework",
     "corsheaders",
@@ -112,8 +115,7 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'lansservices',
         'HOST': 'localhost',
-        'PORT': '5432',
-        'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
+        'PORT': '5432'
     }
 }
 

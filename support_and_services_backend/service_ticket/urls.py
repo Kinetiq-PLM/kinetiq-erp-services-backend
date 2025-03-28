@@ -7,5 +7,5 @@ router = DefaultRouter()
 router.register(r'tickets', TicketViewSet, basename='tickets')
 
 urlpatterns = [
-    path("", include(router.urls)),  # Ensure this is included
+    path("", include(router.urls)),  
 ]

@@ -14,6 +14,7 @@ class CallStatusEnum(models.TextChoices):
 
 class ServiceCall(models.Model):
     class Meta:
+        managed = False
         db_table = '"services"."service_call"'
 
     service_call_id = models.CharField(primary_key=True, max_length=255, editable=False)  

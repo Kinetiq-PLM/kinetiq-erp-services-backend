@@ -12,6 +12,7 @@ class RepStatusEnum(models.TextChoices):
 
 class ServiceReport(models.Model):
     class Meta:
+        managed = False
         db_table = '"services"."service_report"'
 
     report_id = models.CharField(primary_key=True, max_length=255,  editable=False)  

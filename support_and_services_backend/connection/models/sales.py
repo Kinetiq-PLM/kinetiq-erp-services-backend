@@ -47,7 +47,7 @@ class StatementItem(models.Model):
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
     product = models.ForeignKey("connection.Product", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
-    additional_service = models.ForeignKey('connection.AddService', on_delete=models.CASCADE)
+    additional_service = models.ForeignKey('connection.AddsService', on_delete=models.CASCADE)
 
 class RenewalWarranty(models.Model):
     class Meta:

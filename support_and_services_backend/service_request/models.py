@@ -16,6 +16,7 @@ class RequestStatusEnum(models.TextChoices):
 
 class ServiceRequest(models.Model):
     class Meta:
+        managed = False
         db_table = '"services"."service_request"'
 
     service_request_id = models.CharField(primary_key=True, max_length=255, editable=False)  

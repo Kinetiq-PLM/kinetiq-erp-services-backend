@@ -14,6 +14,7 @@ class PriorityEnum(models.TextChoices):
 
 class Ticket(models.Model):
     class Meta:
+        managed = False
         db_table = '"sales"."ticket"'
 
     ticket_id = models.CharField(primary_key=True, max_length=255,  editable=False)  
@@ -24,6 +25,3 @@ class Ticket(models.Model):
     status = models.CharField(max_length=20, choices=StatusEnum.choices, default=StatusEnum.OPEN)
     priority = models.CharField(max_length=10, choices=PriorityEnum.choices, default=PriorityEnum.MEDIUM)
     created_at = models.DateTimeField(auto_now_add=True)
-
-    def __str__(self):
-        return f"Ticket {self.ticket_id}: {self.subject}"
