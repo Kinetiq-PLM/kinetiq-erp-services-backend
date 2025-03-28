@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "connection",
     "service_ticket",
     "service_call",
     "service_request",
@@ -97,10 +98,22 @@ WSGI_APPLICATION = 'support_and_services_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kinetiq-test-schema', # test db, not the db team's db
+        'USER': 'postgres',
+        'PASSWORD': 'lansservices',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
     }
 }
 
