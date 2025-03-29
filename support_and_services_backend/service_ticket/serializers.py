@@ -18,17 +18,13 @@ class TicketSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source='customer', write_only=True
     )
-    salesrep_id  = serializers.PrimaryKeyRelatedField(
-        queryset=Employee.objects.all(), source='salesrep', write_only=True
-    )
 
     customer = CustomerSerializer(read_only=True)  
-    salesrep = EmployeeSerializer(read_only=True)  
 
     class Meta:
         model = Ticket
         fields = [
             'ticket_id', 'status', 'priority', 'created_at', 
-            'subject', 'description', 'customer', 'salesrep',
-            'customer_id', 'salesrep_id'  
+            'subject', 'description', 'customer',
+            'customer_id'
         ]

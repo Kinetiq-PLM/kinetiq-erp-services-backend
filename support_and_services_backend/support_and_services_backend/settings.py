@@ -116,7 +116,8 @@ DATABASES = {
         'USER': 'postgres',
         'PASSWORD': 'lansservices',
         'HOST': 'localhost',
-        'PORT': '5432'
+        'PORT': '5432',
+        #'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
     }
 }
 
