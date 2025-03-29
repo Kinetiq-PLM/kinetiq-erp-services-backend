@@ -22,4 +22,4 @@ class Employee(models.Model):
     phone = models.CharField(max_length=20, blank=True, null=True)
     job_title = models.CharField(max_length=100, blank=True, null=True)
     status = models.TextField() 
-    updated_at = models.DateField(auto_now=True)
+    updated_at = models.DateTimeField(auto_now_add=True)

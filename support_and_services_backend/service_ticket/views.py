@@ -3,8 +3,10 @@ from rest_framework.response import Response
 from rest_framework import status
 from django.shortcuts import get_object_or_404
 from .models import Ticket
-from .serializers import TicketSerializer
+from .serializers import TicketSerializer, CustomerSerializer
 from rest_framework.decorators import api_view
+from datetime import datetime
+from connection.models import Customer
 
 class TicketViewSet(ModelViewSet):
     queryset = Ticket.objects.all()
@@ -45,7 +47,7 @@ def get_ticket(request, ticket_id):
         "ticket_id": ticket.ticket_id,
         "status": ticket.status,
         "priority": ticket.priority,
-        "created_at": ticket.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+        "created_at": ticket.created_at.strftime('%y/%m/%d') if isinstance(ticket.created_at, datetime) else None,
         "subject": ticket.subject,
         "description": ticket.description,
         "customer": {
@@ -57,3 +59,10 @@ def get_ticket(request, ticket_id):
     }
     
     return Response(response_data)
+
+@api_view(['GET'])
+def get_customers(request):
+    """get all the customers"""
+    customer = Customer.objects.all()  
+    serializer = CustomerSerializer(customer, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK) 

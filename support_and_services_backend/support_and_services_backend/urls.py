@@ -8,4 +8,5 @@ urlpatterns = [
     path("", include(ticket_router.urls)),  
     path("", include(call_router.urls)),
     path("", include('service_call.urls')),
+    path("", include('service_ticket.urls')),
 ]

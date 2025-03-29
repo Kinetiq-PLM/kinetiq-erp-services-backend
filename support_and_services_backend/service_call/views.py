@@ -3,7 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import ServiceCall
-from .serializers import ServiceCallSerializer
+from connection.models import Employee, Product
+from .serializers import ServiceCallSerializer, EmployeeSerializer, ProductSerializer
 
 class ServiceCallViewSet(ModelViewSet):
     queryset = ServiceCall.objects.all()
@@ -35,3 +36,17 @@ def create_service_call(request):
     
     #print(serializer.errors) 
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_technicians(request):
+    """get all the employee_ids"""
+    technicians = Employee.objects.all()  
+    serializer = EmployeeSerializer(technicians, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK) 
+
+@api_view(['GET'])
+def get_products(request):
+    """get all the products"""
+    products = Product.objects.all()  
+    serializer = ProductSerializer(products, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK) 
