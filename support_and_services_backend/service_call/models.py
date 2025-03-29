@@ -19,24 +19,23 @@ class ServiceCall(models.Model):
 
     service_call_id = models.CharField(primary_key=True, max_length=255, editable=False)  
     date_created = models.DateTimeField(auto_now_add=True)
-    ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
+    service_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     product = models.ForeignKey('connection.Product', on_delete=models.CASCADE)
     customer = models.ForeignKey('connection.Customer', on_delete=models.CASCADE)
     call_type = models.CharField(max_length=20, choices=CallTypeEnum.choices, default=CallTypeEnum.INQUIRY)
     technician = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)
     call_status = models.CharField(max_length=20, choices=CallStatusEnum.choices, default=CallStatusEnum.OPEN)
     date_closed = models.DateTimeField(null=True)
-    contract = models.ForeignKey(ServiceContract, on_delete=models.CASCADE)
+    contract = models.ForeignKey(ServiceContract, on_delete=models.CASCADE, null=True)
     resolution = models.TextField(blank=True, null=True)
+    priority_level = models.CharField(max_length=20, null=True)
 
-    @property
-    def end_date(self):
-        # fetches end_date from contract_id
-        return self.contract.end_date if self.contract else None
+    def save(self, *args, **kwargs):
+        if self.contract:
+            self.end_date = self.contract.end_date  
+        if self.service_ticket:
+            self.priority_level = self.service_ticket.priority  
 
-    @property
-    def priority_level(self):
-        # fetches prio_level from ticket_id
-        return self.ticket.priority if self.ticket else None
+        super().save(*args, **kwargs) 
 
     

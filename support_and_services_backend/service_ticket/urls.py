@@ -1,11 +1,11 @@
-from django.urls import path, include
+from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import TicketViewSet
+from .views import TicketViewSet, get_ticket, get_customers
 
-# Initialize DRF Router
-router = DefaultRouter()
-router.register(r'tickets', TicketViewSet, basename='tickets')
+ticket_router  = DefaultRouter()
+ticket_router .register(r'tickets', TicketViewSet, basename='ticket')
 
-urlpatterns = [
-    path("", include(router.urls)),  
+urlpatterns = ticket_router.urls + [
+    path('tickets/<str:ticket_id>/', get_ticket, name='ticket-detail'), 
+     path('customers/', get_customers, name='customers'), 
 ]

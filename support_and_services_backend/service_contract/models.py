@@ -18,7 +18,7 @@ class ServiceContract(models.Model):
     date_issued = models.DateField() # alr has a trigger
     end_date = models.DateField() # alr has a trigger
     contract_status = models.CharField(max_length=20, choices=ContractStatusEnum.choices, default=ContractStatusEnum.PENDING)
-    renewal_bool = models.BooleanField(default=False)
+    is_renewal = models.BooleanField(default=False)
     renewal = models.ForeignKey('connection.RenewalWarranty', on_delete=models.SET_NULL, blank=True, null=True)
 
     @property

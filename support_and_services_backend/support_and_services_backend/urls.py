@@ -1,12 +1,12 @@
 from django.contrib import admin
 from django.urls import path, include
-from rest_framework.routers import DefaultRouter
-from service_ticket.urls import router
-
-admin_router = DefaultRouter()
-admin_router.registry.extend(router.registry)
+from service_ticket.urls import ticket_router
+from service_call.urls import call_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
-    path("", include("service_ticket.urls")),
+    path("", include(ticket_router.urls)),  
+    path("", include(call_router.urls)),
+    path("", include('service_call.urls')),
+    path("", include('service_ticket.urls')),
 ]
