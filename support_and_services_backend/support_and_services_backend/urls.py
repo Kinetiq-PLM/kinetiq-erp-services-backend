@@ -9,4 +9,5 @@ urlpatterns = [
     path("", include(call_router.urls)),
     path("", include('service_call.urls')),
     path("", include('service_ticket.urls')),
+    path("", include('service_contract.urls')),
 ]

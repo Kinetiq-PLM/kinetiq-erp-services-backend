@@ -7,5 +7,5 @@ ticket_router .register(r'tickets', TicketViewSet, basename='ticket')
 
 urlpatterns = ticket_router.urls + [
     path('tickets/<str:ticket_id>/', get_ticket, name='ticket-detail'), 
-     path('customers/', get_customers, name='customers'), 
+    path('customers/', get_customers, name='customers'), 
 ]

@@ -29,9 +29,10 @@ class ServiceCall(models.Model):
     contract = models.ForeignKey(ServiceContract, on_delete=models.CASCADE, null=True)
     resolution = models.TextField(blank=True, null=True)
     priority_level = models.CharField(max_length=20, null=True)
+    end_date = models.DateField(null=True)
 
     def save(self, *args, **kwargs):
-        if self.contract:
+        if self.contract and self.contract.end_date:
             self.end_date = self.contract.end_date  
         if self.service_ticket:
             self.priority_level = self.service_ticket.priority  
