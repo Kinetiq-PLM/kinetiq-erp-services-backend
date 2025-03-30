@@ -26,7 +26,7 @@ class ServiceCall(models.Model):
     technician = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)
     call_status = models.CharField(max_length=20, choices=CallStatusEnum.choices, default=CallStatusEnum.OPEN)
     date_closed = models.DateTimeField(null=True)
-    contract = models.ForeignKey(ServiceContract, on_delete=models.CASCADE, null=True)
+    contract = models.ForeignKey(ServiceContract, on_delete=models.CASCADE, null=True, blank=True)
     resolution = models.TextField(blank=True, null=True)
     priority_level = models.CharField(max_length=20, null=True)
     end_date = models.DateField(null=True)

@@ -26,7 +26,7 @@ class Product(models.Model):
         managed = False
         db_table = '"admin"."products"'
 
-    product_id = models.CharField(primary_key=True, max_length=255,  editable=False) 
+    product_id = models.CharField(primary_key=True, max_length=255, editable=False) 
     item = models.ForeignKey(ItemMasterData, on_delete=models.SET_NULL, 
                              blank=True, null=True)
     product_name = models.CharField(max_length=255)
