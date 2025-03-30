@@ -6,12 +6,12 @@ from service_call.models import ServiceCall
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Employee
-        fields = ['employee_id']
+        fields = ['employee_id', 'first_name', 'last_name']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['customer_id']
+        fields = ['customer_id', 'name', 'email_address', 'phone_number']
 
 class ServiceCallSerializer(serializers.ModelSerializer):
     class Meta:
