@@ -16,8 +16,8 @@ class ServiceContract(models.Model):
     customer = models.ForeignKey('connection.Customer', on_delete=models.CASCADE)
     product = models.ForeignKey('connection.Product', on_delete=models.CASCADE) 
     contract_description = models.TextField(blank=True, null=True)
-    date_issued = models.DateField() # alr has a trigger
-    end_date = models.DateField() # alr has a trigger
+    date_issued = models.DateField(blank=True, null=True) # alr has a trigger
+    end_date = models.DateField(blank=True, null=True) # alr has a trigger
     contract_status = models.CharField(max_length=20, choices=ContractStatusEnum.choices, default=ContractStatusEnum.PENDING)
     renewal = models.ForeignKey('connection.RenewalWarranty', on_delete=models.SET_NULL, blank=True, null=True)
     additional_service = models.ForeignKey('connection.AddsService', on_delete=models.SET_NULL, blank=True, null=True) 

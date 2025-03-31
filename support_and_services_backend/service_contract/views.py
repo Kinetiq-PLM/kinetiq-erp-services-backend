@@ -3,8 +3,8 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from .models import ServiceContract
-from .serializers import ContractSerializer, AddServiceTypeSerializer, RenewalWarrantySerializer
-from connection.models import AddsServiceType, RenewalWarranty
+from .serializers import ContractSerializer, AddServiceTypeSerializer, RenewalWarrantySerializer, StatementItemSerializer
+from connection.models import AddsServiceType, RenewalWarranty, StatementItem
 from django.shortcuts import get_object_or_404
 
 class ServiceContractViewSet(ModelViewSet):
@@ -16,6 +16,16 @@ class ServiceContractViewSet(ModelViewSet):
         queryset = self.get_queryset()
         serializer = ContractSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    # create contract
+    def create(self, request, *args, **kwargs):
+        serializer = ContractSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            contract = serializer.save()  
+            return Response(ContractSerializer(contract).data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_contracts(request, product_id, customer_id):
@@ -49,3 +59,10 @@ def update_contract(request, contract_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_statement_list(request):
+    """get all statement items"""
+    statement_item = StatementItem.objects.all()  
+    serializer = StatementItemSerializer(statement_item, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK) 

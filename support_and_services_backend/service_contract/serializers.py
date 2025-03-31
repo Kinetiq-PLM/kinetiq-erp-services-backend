@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ServiceContract
-from connection.models import Customer, Product, RenewalWarranty , AddsService, AddsServiceType
+from connection.models import *
 
 class AddServiceTypeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,6 +27,31 @@ class RenewalWarrantySerializer(serializers.ModelSerializer):
         model = RenewalWarranty
         fields = "__all__" 
 
+class StatementSerializer(serializers.ModelSerializer):
+    customer_id = serializers.PrimaryKeyRelatedField(
+        queryset=Customer.objects.all(), source="customer", write_only=True
+    )
+    customer = CustomerSerializer(read_only=True)  
+
+    class Meta:
+        model = Statement
+        fields = ['statement_id', 'customer', 'customer_id']   
+
+class StatementItemSerializer(serializers.ModelSerializer):
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), source="product", write_only=True
+    )
+    product = ProductSerializer(read_only=True)  
+
+    statement_id = serializers.PrimaryKeyRelatedField(
+        queryset=Statement.objects.all(), source="statement", write_only=True
+    )
+    statement = StatementSerializer(read_only=True) 
+
+    class Meta:
+        model = StatementItem
+        fields = "__all__"
+
 class ContractSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source="customer", write_only=True
@@ -44,9 +69,15 @@ class ContractSerializer(serializers.ModelSerializer):
     additional_service = AddsServiceSerializer(read_only=True) 
 
     renewal_id = serializers.PrimaryKeyRelatedField(
-        queryset=RenewalWarranty.objects.all(), source="renewal", write_only=True
+        queryset=RenewalWarranty.objects.all(), source="renewal", write_only=True, required=False, allow_null=True
     )
     renewal = RenewalWarrantySerializer(read_only=True) 
+
+    statement_item_id = serializers.PrimaryKeyRelatedField(
+        queryset=StatementItem.objects.all(), source="statement_item", write_only=True
+    )
+    statement_item = StatementItemSerializer(read_only=True) 
+
 
     class Meta:
         model = ServiceContract
