@@ -40,3 +40,11 @@ def update_service_request(request, service_request_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_filtered_requests(request, service_call_id):
+    """get requests filtered by call id"""
+    service_requests = ServiceRequest.objects.filter(service_call_id=service_call_id)
+    serializer = ServiceRequestSerializer(service_requests, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

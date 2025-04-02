@@ -66,3 +66,16 @@ def get_customers(request):
     customer = Customer.objects.all()  
     serializer = CustomerSerializer(customer, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
+
+@api_view(['PATCH'])
+def update_ticket(request, ticket_id):
+    """updates a service ticket partially"""
+    ticket = get_object_or_404(Ticket, ticket_id=ticket_id)
+    
+    serializer = TicketSerializer(ticket, data=request.data, partial=True)  # partial allows partial update iykyk
+
+    if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    
+    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

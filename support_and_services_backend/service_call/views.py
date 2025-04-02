@@ -101,3 +101,10 @@ def get_products(request):
     products = Product.objects.all()  
     serializer = ProductSerializer(products, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
+
+@api_view(['GET'])
+def get_filtered_calls(request, service_ticket_id):
+    """get calls filtered by ticket id"""
+    service_calls = ServiceCall.objects.filter(service_ticket_id=service_ticket_id)
+    serializer = ServiceCallSerializer(service_calls, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
