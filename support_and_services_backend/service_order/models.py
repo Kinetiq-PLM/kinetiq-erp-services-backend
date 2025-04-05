@@ -23,7 +23,7 @@ class ServiceOrderItem(models.Model):
 
     service_order_item_id = models.CharField(primary_key=True, max_length=255,  editable=False)  
     service_order = models.ForeignKey(ServiceOrder, on_delete=models.CASCADE)
-    item_md = models.ForeignKey('connection.InventoryItemMD', on_delete=models.CASCADE) # inventory
+    item = models.ForeignKey('connection.ItemMasterData', on_delete=models.CASCADE) # item master data admin
     principal_item = models.ForeignKey('connection.PrincipalItem', on_delete=models.CASCADE) # mrp
     item_quantity = models.IntegerField(default=1)
     item_price = models.DecimalField(max_digits=10, decimal_places=2)
