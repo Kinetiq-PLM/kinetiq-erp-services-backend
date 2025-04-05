@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ServiceRequest
-from connection.models import Customer, Employee
+from connection.models import Customer, Employee, Product
 from service_call.models import ServiceCall
 
 class EmployeeSerializer(serializers.ModelSerializer):
@@ -11,12 +11,23 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
-        fields = ['customer_id', 'name', 'email_address', 'phone_number']
+        fields = "__all__"
+
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['product_id']
+
 
 class ServiceCallSerializer(serializers.ModelSerializer):
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), source="product", write_only=True
+    )
+    product = ProductSerializer(read_only=True) 
+
     class Meta:
         model = ServiceCall
-        fields = ['service_call_id']   
+        fields = ['service_call_id', 'product', 'product_id']   
 
 class ServiceRequestSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(
