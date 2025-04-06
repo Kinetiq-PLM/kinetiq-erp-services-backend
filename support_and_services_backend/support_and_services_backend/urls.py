@@ -6,6 +6,7 @@ from service_request.urls import request_router
 from service_report.urls import report_router
 from service_billing.urls import billing_router
 from service_analysis.urls import analysis_router
+from service_order.urls import order_item_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -14,7 +15,8 @@ urlpatterns = [
     path("", include(request_router.urls)),
     path("", include(report_router.urls)),
     path("", include(billing_router.urls)), 
-    path("", include(analysis_router.urls)), 
+    path("", include(analysis_router.urls)),
+    path("", include(order_item_router.urls)),
     path("", include('service_call.urls')),
     path("", include('service_ticket.urls')),
     path("", include('service_contract.urls')),

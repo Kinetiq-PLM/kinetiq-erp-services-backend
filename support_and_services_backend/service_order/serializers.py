@@ -39,6 +39,11 @@ class ItemSerializer(serializers.ModelSerializer):
         fields = ['item_id', 'item_name']
 
 class PrincipalItemSerializer(serializers.ModelSerializer):
+    item_id = serializers.PrimaryKeyRelatedField(
+        queryset=ItemMasterData.objects.all(), source="item", write_only=True
+    )
+    item = ItemSerializer(read_only=True)  
+
     class Meta:
         model = PrincipalItem
         fields = "__all__"
@@ -61,4 +66,14 @@ class ServiceOrderItemSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceOrderItem
+        fields = "__all__"
+
+class InventoryItemMDSerializer(serializers.ModelSerializer):
+    item_id = serializers.PrimaryKeyRelatedField(
+        queryset=ItemMasterData.objects.all(), source="item", write_only=True
+    )
+    item = ItemSerializer(read_only=True)  
+
+    class Meta:
+        model = InventoryItemMD
         fields = "__all__"
