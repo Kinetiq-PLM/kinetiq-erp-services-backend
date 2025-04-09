@@ -60,7 +60,7 @@ class ServiceOrderItemSerializer(serializers.ModelSerializer):
     item = ItemSerializer(read_only=True)  
 
     principal_item_id = serializers.PrimaryKeyRelatedField(
-        queryset=PrincipalItem.objects.all(), source="principal_item", write_only=True
+        queryset=PrincipalItem.objects.all(), source="principal_item", write_only=True, required=False, allow_null=True
     )
     principal_item = PrincipalItemSerializer(read_only=True)  
 
