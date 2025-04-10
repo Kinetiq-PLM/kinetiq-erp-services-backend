@@ -14,8 +14,9 @@ class TicketViewSet(ModelViewSet):
 
     def list(self, request, *args, **kwargs):
         """ fetch all tix """
-        status_filter = request.query_params.get('status', None)
-        priority_filter = request.query_params.get('priority', None)
+        status_filter = request.query_params.get('status')
+        priority_filter = request.query_params.get('priority')
+        type_filter = request.query_params.get('type', 'Service')
 
         queryset = self.get_queryset()  
 
@@ -23,6 +24,8 @@ class TicketViewSet(ModelViewSet):
             queryset = queryset.filter(status=status_filter)
         if priority_filter:
             queryset = queryset.filter(priority=priority_filter)
+        if type_filter:
+            queryset = queryset.filter(type=type_filter)
 
         serializer = TicketSerializer(queryset, many=True)  
         
@@ -50,6 +53,7 @@ def get_ticket(request, ticket_id):
         "created_at": ticket.created_at.strftime('%y/%m/%d') if isinstance(ticket.created_at, datetime) else None,
         "subject": ticket.subject,
         "description": ticket.description,
+        "type": ticket.type,
         "customer": {
             "customer_id": ticket.customer.customer_id,
             "name": ticket.customer.name,

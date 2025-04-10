@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from .models import ServiceContract
+from warranty_renewal.models import WarrantyRenewal
 from connection.models import *
 
 class AddServiceTypeSerializer(serializers.ModelSerializer):
@@ -22,9 +23,9 @@ class AddsServiceSerializer(serializers.ModelSerializer):
         model = AddsService
         fields = ['additional_service_id']   
 
-class RenewalWarrantySerializer(serializers.ModelSerializer):
+class WarrantyRenewalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RenewalWarranty
+        model = WarrantyRenewal
         fields = "__all__" 
 
 class StatementSerializer(serializers.ModelSerializer):
@@ -69,9 +70,9 @@ class ContractSerializer(serializers.ModelSerializer):
     additional_service = AddsServiceSerializer(read_only=True) 
 
     renewal_id = serializers.PrimaryKeyRelatedField(
-        queryset=RenewalWarranty.objects.all(), source="renewal", write_only=True, required=False, allow_null=True
+        queryset=WarrantyRenewal.objects.all(), source="renewal", write_only=True, required=False, allow_null=True
     )
-    renewal = RenewalWarrantySerializer(read_only=True) 
+    renewal = WarrantyRenewalSerializer(read_only=True) 
 
     statement_item_id = serializers.PrimaryKeyRelatedField(
         queryset=StatementItem.objects.all(), source="statement_item", write_only=True

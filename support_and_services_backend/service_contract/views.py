@@ -3,8 +3,9 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from .models import ServiceContract
-from .serializers import ContractSerializer, AddServiceTypeSerializer, RenewalWarrantySerializer, StatementItemSerializer
-from connection.models import AddsServiceType, RenewalWarranty, StatementItem
+from warranty_renewal.models import WarrantyRenewal
+from .serializers import ContractSerializer, AddServiceTypeSerializer, WarrantyRenewalSerializer, StatementItemSerializer
+from connection.models import AddsServiceType, StatementItem
 from django.shortcuts import get_object_or_404
 
 class ServiceContractViewSet(ModelViewSet):
@@ -42,10 +43,10 @@ def get_additional_service_list(request, additional_service_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_filtered_renewals(request, product_id, customer_id):
-    """get renewals filtered by product_id and customer_id"""
-    contracts = RenewalWarranty.objects.filter(product_id=product_id, customer_id=customer_id)
-    serializer = RenewalWarrantySerializer(contracts, many=True)
+def get_filtered_renewals(request, contract_id): 
+    """get renewals filtered by contract_id"""
+    contracts = WarrantyRenewal.objects.filter(contract_id=contract_id)
+    serializer = WarrantyRenewalSerializer(contracts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PATCH'])

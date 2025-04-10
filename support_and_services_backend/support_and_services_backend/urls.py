@@ -8,6 +8,8 @@ from service_billing.urls import billing_router
 from service_analysis.urls import analysis_router
 from service_order.urls import order_item_router
 from service_delivery_order.urls import delivery_order_router
+from after_analysis.urls import after_analysis_router
+from warranty_renewal.urls import renewal_router
 
 urlpatterns = [
     path("admin/", admin.site.urls),
@@ -19,12 +21,17 @@ urlpatterns = [
     path("", include(analysis_router.urls)),
     path("", include(order_item_router.urls)),
     path("", include(delivery_order_router.urls)),
+    path("", include(after_analysis_router.urls)),
+    path("", include(renewal_router.urls)),
     path("", include('service_call.urls')),
     path("", include('service_ticket.urls')),
     path("", include('service_contract.urls')),
     path("", include('service_request.urls')),
     path("", include('service_report.urls')),
+    path("", include('service_billing.urls')),
     path("", include('service_analysis.urls')),  
     path("", include('service_order.urls')),    
     path("", include('service_delivery_order.urls')),
+    path("", include('after_analysis.urls')),
+    path("", include('warranty_renewal.urls')),
 ]

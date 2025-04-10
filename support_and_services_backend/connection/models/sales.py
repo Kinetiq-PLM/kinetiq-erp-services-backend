@@ -48,16 +48,3 @@ class StatementItem(models.Model):
     product = models.ForeignKey("connection.Product", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     additional_service = models.ForeignKey('connection.AddsService', on_delete=models.CASCADE)
-
-class RenewalWarranty(models.Model):
-    class Meta:
-        managed = False
-        db_table = '"sales"."renewal_warranty"'
-
-    renewal_id = models.CharField(primary_key=True, max_length=255, editable=False)  
-    order = models.ForeignKey(Order, on_delete=models.CASCADE)
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)
-    product = models.ForeignKey("connection.Product", on_delete=models.CASCADE)
-    service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE)
-    renewal_warranty_start = models.DateField(blank=True, null=True)
-    renewal_warranty_end = models.DateField(blank=True, null=True)

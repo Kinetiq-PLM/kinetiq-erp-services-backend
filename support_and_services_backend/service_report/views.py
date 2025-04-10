@@ -3,9 +3,8 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import ServiceReport
-from .serializers import ServiceReportSerializer, RenewalWarrantySerializer
+from .serializers import ServiceReportSerializer
 from django.shortcuts import get_object_or_404
-from connection.models import RenewalWarranty
 
 class ServiceReportViewSet(ModelViewSet):
     queryset = ServiceReport.objects.all()
@@ -24,13 +23,6 @@ def get_service_report(request, service_report_id):
     serializer = ServiceReportSerializer(service_report)
     
     return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['GET'])
-def get_renewals(request):
-    """get all the renewals"""
-    renewals = RenewalWarranty.objects.all()  
-    serializer = RenewalWarrantySerializer(renewals, many=True)  
-    return Response(serializer.data, status=status.HTTP_200_OK) 
 
 @api_view(['POST'])
 def create_service_report(request):

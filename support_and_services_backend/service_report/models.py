@@ -1,6 +1,6 @@
 from django.db import models
 from service_ticket.models import Ticket
-from service_contract.models import ServiceContract
+from warranty_renewal.models import WarrantyRenewal
 from service_request.models import ServiceRequest
 from service_call.models import ServiceCall
 from service_billing.models import ServiceBilling
@@ -19,7 +19,7 @@ class ServiceReport(models.Model):
     service_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, blank=True, null=True)
     request_type = models.TextField(null=False) 
-    renewal = models.ForeignKey('connection.RenewalWarranty', on_delete=models.SET_NULL, blank=True, null=True)
+    renewal = models.ForeignKey(WarrantyRenewal, on_delete=models.SET_NULL, blank=True, null=True)
     service_call = models.ForeignKey(ServiceCall, on_delete=models.CASCADE)
     service_billing = models.ForeignKey(ServiceBilling, on_delete=models.CASCADE, blank=True, null=True)
     technician = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)

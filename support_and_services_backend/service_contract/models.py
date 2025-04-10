@@ -1,5 +1,6 @@
 from django.db import models
 
+
 class ContractStatusEnum(models.TextChoices):
     PENDING = "Pending"
     ACTIVE = "Active"
@@ -7,6 +8,7 @@ class ContractStatusEnum(models.TextChoices):
     TERMINATED = "Terminated"
 
 class ServiceContract(models.Model):
+    from warranty_renewal.models import WarrantyRenewal
     class Meta:
         managed = False
         db_table = '"services"."service_contract"'
@@ -19,7 +21,7 @@ class ServiceContract(models.Model):
     date_issued = models.DateField(blank=True, null=True) # alr has a trigger
     end_date = models.DateField(blank=True, null=True) # alr has a trigger
     contract_status = models.CharField(max_length=20, choices=ContractStatusEnum.choices, default=ContractStatusEnum.PENDING)
-    renewal = models.ForeignKey('connection.RenewalWarranty', on_delete=models.SET_NULL, blank=True, null=True)
+    renewal = models.ForeignKey(WarrantyRenewal, on_delete=models.SET_NULL, blank=True, null=True)
     additional_service = models.ForeignKey('connection.AddsService', on_delete=models.SET_NULL, blank=True, null=True) 
     product_quantity = models.IntegerField(default=1) 
     renewal_date = models.DateField(blank=True, null=True) 
