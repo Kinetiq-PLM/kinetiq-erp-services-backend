@@ -28,6 +28,7 @@ urlpatterns = [
     path("", include('service_contract.urls')),
     path("", include('service_request.urls')),
     path("", include('service_report.urls')),
+    path("", include('service_billing.urls')),
     path("", include('service_analysis.urls')),  
     path("", include('service_order.urls')),    
     path("", include('service_delivery_order.urls')),
