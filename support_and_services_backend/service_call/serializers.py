@@ -12,7 +12,7 @@ class EmployeeSerializer(serializers.ModelSerializer):
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
         model = Product
-        fields = ['product_id', 'product_name']
+        fields = ['product_id', 'product_name', 'selling_price']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -27,7 +27,7 @@ class TicketSerializer(serializers.ModelSerializer):
 class ContractSerializer(serializers.ModelSerializer):
     class Meta:
         model = ServiceContract
-        fields = ['contract_id', 'end_date']
+        fields = ['contract_id', 'end_date', 'contract_status']
 
 class ServiceCallSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(

@@ -11,6 +11,9 @@ class PriorityEnum(models.TextChoices):
     HIGH = 'High'
     URGENT = 'Urgent'
 
+class TypeEnum(models.TextChoices):
+    SALES = 'Sales'
+    SERVICE = 'Service'
 
 class Ticket(models.Model):
     class Meta:
@@ -25,3 +28,4 @@ class Ticket(models.Model):
     status = models.CharField(max_length=20, choices=StatusEnum.choices, default=StatusEnum.OPEN)
     priority = models.CharField(max_length=10, choices=PriorityEnum.choices, default=PriorityEnum.MEDIUM)
     created_at = models.DateTimeField(auto_now_add=True)
+    type = models.CharField(max_length=10, choices=TypeEnum.choices, default=TypeEnum.SERVICE)

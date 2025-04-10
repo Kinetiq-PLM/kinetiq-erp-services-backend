@@ -43,9 +43,9 @@ def get_additional_service_list(request, additional_service_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_filtered_renewals(request, product_id, customer_id): # change to contract na ung magfifilter
-    """get renewals filtered by product_id and customer_id"""
-    contracts = WarrantyRenewal.objects.filter(product_id=product_id, customer_id=customer_id)
+def get_filtered_renewals(request, contract_id): 
+    """get renewals filtered by contract_id"""
+    contracts = WarrantyRenewal.objects.filter(contract_id=contract_id)
     serializer = WarrantyRenewalSerializer(contracts, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 

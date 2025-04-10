@@ -47,3 +47,10 @@ def update_warranty_renewal(request, renewal_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_filtered_renewal(request, service_call_id): 
+    """get renewals filtered by service_call_id"""
+    renewals = WarrantyRenewal.objects.filter(service_call_id=service_call_id)
+    serializer = WarrantyRenewalSerializer(renewals, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

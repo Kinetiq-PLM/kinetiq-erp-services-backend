@@ -31,37 +31,9 @@ class ServiceCallViewSet(ModelViewSet):
 def get_call(request, service_call_id):
     """fetches a single service call"""
     service_call = get_object_or_404(ServiceCall, service_call_id=service_call_id)
-
-    response_data = {
-        "service_call_id": service_call.service_call_id,
-        "date_created": service_call.date_created.strftime('%y/%m/%d') if isinstance(service_call.date_created, datetime) else None,
-        "service_ticket":{
-            "ticket_id": service_call.service_ticket.ticket_id,
-            "subject": service_call.service_ticket.subject,
-            "description": service_call.service_ticket.description,
-        } if service_call.service_ticket else None,
-        "product":{
-            "product_id": service_call.product.product_id,
-            "product_name": service_call.product.product_name,
-        } if service_call.product else None,
-        "customer": {
-            "customer_id": service_call.customer.customer_id,
-            "name": service_call.customer.name,
-            "phone_number": service_call.customer.phone_number,
-        } if service_call.customer else None,
-        "call_type": service_call.call_type,
-        "technician": service_call.technician,
-        "call_status": service_call.call_status,
-        "date_closed": service_call.date_closed,
-        "contract": {
-            "contract_id": service_call.contract.contract_id,
-            "end_date": service_call.contract.end_date,
-        } if service_call.contract else None,
-        "resolution": service_call.resolution,
-        "priority_level": service_call.priority_level,
-    }
+    serializer = ServiceCallSerializer(service_call)
     
-    return Response(response_data)
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['PATCH'])
 def update_service_call(request, service_call_id):
