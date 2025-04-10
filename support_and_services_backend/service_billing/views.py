@@ -3,8 +3,9 @@ from rest_framework import status
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 from .models import ServiceBilling
-from .serializers import ServiceBillingSerializer
+from .serializers import *
 from django.shortcuts import get_object_or_404
+from connection.models import OpCost
 
 class ServiceBillingViewSet(ModelViewSet):
     queryset = ServiceBilling.objects.all()
@@ -27,7 +28,7 @@ class ServiceBillingViewSet(ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
 @api_view(['PATCH'])
-def update_contract(request, service_billing_id):
+def update_billing(request, service_billing_id):
     """updates a service billing partially"""
     service_billing = get_object_or_404(ServiceBilling, service_billing_id=service_billing_id)
     serializer = ServiceBillingSerializer(service_billing, data=request.data, partial=True)  # partial allows partial update iykyk
@@ -37,3 +38,17 @@ def update_contract(request, service_billing_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_all_op_costs(request):
+    """Get all operational costs"""
+    operational_costs = OpCost.objects.all()
+    serializer = OpCostSerializer(operational_costs, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_orders(request, analysis_id):
+    """get orders data from service analysis"""
+    service_orders = ServiceOrder.objects.filter(analysis_id=analysis_id)
+    serializer = ServiceOrderSerializer(service_orders, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

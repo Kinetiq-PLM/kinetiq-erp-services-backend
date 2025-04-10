@@ -45,3 +45,10 @@ def update_service_analysis(request, analysis_id):
         return Response(serializer.data, status=status.HTTP_200_OK)
     
     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+@api_view(['GET'])
+def get_filtered_analyses(request, service_request_id): 
+    """get renewals filtered by service_request_id"""
+    analyses = ServiceAnalysis.objects.filter(service_request_id=service_request_id)
+    serializer = ServiceAnalysisSerializer(analyses, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
