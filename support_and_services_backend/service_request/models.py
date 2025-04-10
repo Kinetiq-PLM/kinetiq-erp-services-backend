@@ -5,7 +5,6 @@ class RequestTypeEnum(models.TextChoices):
     REPAIR = "Repair"
     INSTALLATION = "Installation"
     MAINTENANCE = "Maintenance"
-    RENEWAL = "Renewal"
     OTHER = "Other"
 
 class RequestStatusEnum(models.TextChoices):

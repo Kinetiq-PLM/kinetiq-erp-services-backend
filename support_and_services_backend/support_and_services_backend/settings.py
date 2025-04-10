@@ -49,6 +49,7 @@ INSTALLED_APPS = [
     "service_delivery_order",
     "service_billing",
     "after_analysis",
+    "warranty_renewal",
 
     "rest_framework",
     "corsheaders",

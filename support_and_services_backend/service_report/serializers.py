@@ -5,6 +5,7 @@ from service_ticket.models import Ticket
 from service_request.models import ServiceRequest
 from service_billing.models import ServiceBilling
 from service_call.models import ServiceCall
+from warranty_renewal.models import WarrantyRenewal
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -26,9 +27,9 @@ class ServiceRequestSerializer(serializers.ModelSerializer):
         model = ServiceRequest
         fields = ['service_request_id', 'request_type']
 
-class RenewalWarrantySerializer(serializers.ModelSerializer):
+class WarrantyRenewalSerializer(serializers.ModelSerializer):
     class Meta:
-        model = RenewalWarranty
+        model = WarrantyRenewal
         fields = "__all__" 
 
 class ServiceCallSerializer(serializers.ModelSerializer):
@@ -59,7 +60,7 @@ class ServiceReportSerializer(serializers.ModelSerializer):
         queryset=ServiceRequest.objects.all(), source='service_request', write_only=True
     )
     renewal_id = serializers.PrimaryKeyRelatedField(
-        queryset=RenewalWarranty.objects.all(), source="renewal", write_only=True, required=False, allow_null=True
+        queryset=WarrantyRenewal.objects.all(), source="renewal", write_only=True, required=False, allow_null=True
     )
     service_call_id = serializers.PrimaryKeyRelatedField(
         queryset=ServiceCall.objects.all(), source='service_call', write_only=True
@@ -73,7 +74,7 @@ class ServiceReportSerializer(serializers.ModelSerializer):
 
     service_ticket = TicketSerializer(read_only=True) 
     service_request = ServiceRequestSerializer(read_only=True) 
-    renewal = RenewalWarrantySerializer(read_only=True) 
+    renewal = WarrantyRenewalSerializer(read_only=True) 
     service_call = ServiceCallSerializer(read_only=True)
     service_billing = ServiceBillingSerializer(read_only=True)
     technician = EmployeeSerializer(read_only=True) 
