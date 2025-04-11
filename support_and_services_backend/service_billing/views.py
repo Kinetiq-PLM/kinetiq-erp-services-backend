@@ -52,3 +52,17 @@ def get_orders(request, analysis_id):
     service_orders = ServiceOrder.objects.filter(analysis_id=analysis_id)
     serializer = ServiceOrderSerializer(service_orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_bill_renewal(request, renewal_id): 
+    """get billings filtered by renewal"""
+    billings = ServiceBilling.objects.filter(renewal_id=renewal_id)
+    serializer = ServiceBillingSerializer(billings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_bill_request(request, service_request_id): 
+    """get billings filtered by renewal"""
+    billings = ServiceBilling.objects.filter(service_request_id=service_request_id)
+    serializer = ServiceBillingSerializer(billings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

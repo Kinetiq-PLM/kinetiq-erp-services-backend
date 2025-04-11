@@ -10,7 +10,7 @@ urlpatterns = order_item_router.urls + [
     path('orders/<str:analysis_id>/', get_order, name='get-order'),
     path('order-items/<str:service_order_id>/', get_order_items, name='get-order-items'),
     path('items/', get_items, name='get-items'),
-    path('principal-items/<str:item_id>/', get_principal_items, name='get-principal-items'),
+    path('principal-items/<str:service_order_item_id>/', get_principal_items, name='get-principal-items'),
     path('inventory-items/', get_inventory_items, name='inventory-items'),
     path('order-item/<str:service_order_item_id>/update/', update_order_item, name='inventory-items'),
 ]
