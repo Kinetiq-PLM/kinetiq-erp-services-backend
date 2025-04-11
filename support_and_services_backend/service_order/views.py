@@ -57,9 +57,9 @@ def get_items(request):
     return Response(serializer.data, status=status.HTTP_200_OK) 
 
 @api_view(['GET'])
-def get_principal_items(request, item_id):
-    """get all principal items filtered by item_id"""
-    items = PrincipalItem.objects.filter(item_id=item_id)  
+def get_principal_items(request, service_order_item_id):
+    """get all principal items filtered by service order item id"""
+    items = PrincipalItem.objects.filter(service_order_item_id=service_order_item_id)  
     serializer = PrincipalItemSerializer(items, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
 

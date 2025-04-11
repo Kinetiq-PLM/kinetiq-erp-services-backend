@@ -18,7 +18,7 @@ class ServiceReport(models.Model):
     report_id = models.CharField(primary_key=True, max_length=255,  editable=False)  
     service_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
     service_request = models.ForeignKey(ServiceRequest, on_delete=models.CASCADE, blank=True, null=True)
-    request_type = models.TextField(null=False) 
+    request_type = models.TextField(blank=True, null=True) 
     renewal = models.ForeignKey(WarrantyRenewal, on_delete=models.SET_NULL, blank=True, null=True)
     service_call = models.ForeignKey(ServiceCall, on_delete=models.CASCADE)
     service_billing = models.ForeignKey(ServiceBilling, on_delete=models.CASCADE, blank=True, null=True)

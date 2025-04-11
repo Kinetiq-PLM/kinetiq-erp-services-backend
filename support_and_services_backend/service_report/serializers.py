@@ -57,7 +57,7 @@ class ServiceReportSerializer(serializers.ModelSerializer):
         queryset=Ticket.objects.all(), source='service_ticket', write_only=True
     )
     service_request_id = serializers.PrimaryKeyRelatedField(
-        queryset=ServiceRequest.objects.all(), source='service_request', write_only=True
+        queryset=ServiceRequest.objects.all(), source='service_request', write_only=True, required=False, allow_null=True
     )
     renewal_id = serializers.PrimaryKeyRelatedField(
         queryset=WarrantyRenewal.objects.all(), source="renewal", write_only=True, required=False, allow_null=True

@@ -54,3 +54,4 @@ def get_filtered_renewal(request, service_call_id):
     renewals = WarrantyRenewal.objects.filter(service_call_id=service_call_id)
     serializer = WarrantyRenewalSerializer(renewals, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
