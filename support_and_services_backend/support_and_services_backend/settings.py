@@ -38,12 +38,18 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    "connection",
     "service_ticket",
     "service_call",
     "service_request",
     "service_analysis",
     "service_contract",
     "service_report",
+    "service_order",
+    "service_delivery_order",
+    "service_billing",
+    "after_analysis",
+    "warranty_renewal",
 
     "rest_framework",
     "corsheaders",
@@ -51,6 +57,7 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
+    "corsheaders.middleware.CorsMiddleware",
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -59,7 +66,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
-    "corsheaders.middleware.CorsMiddleware"
+    
 ]
 
 CORS_ALLOW_ALL_ORIGINS = True
@@ -97,10 +104,22 @@ WSGI_APPLICATION = 'support_and_services_backend.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': BASE_DIR / 'db.sqlite3',
+#     }
+# }
+
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'kinetiq-test-schema', # test db, not the db team's db
+        'USER': 'postgres',
+        'PASSWORD': 'lansservices',
+        'HOST': 'localhost',
+        'PORT': '5432',
+        #'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
     }
 }
 

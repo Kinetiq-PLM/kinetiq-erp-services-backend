@@ -1,22 +1,37 @@
-"""
-URL configuration for support_and_services_backend project.
-
-The `urlpatterns` list routes URLs to views. For more information please see:
-    https://docs.djangoproject.com/en/5.1/topics/http/urls/
-Examples:
-Function views
-    1. Add an import:  from my_app import views
-    2. Add a URL to urlpatterns:  path('', views.home, name='home')
-Class-based views
-    1. Add an import:  from other_app.views import Home
-    2. Add a URL to urlpatterns:  path('', Home.as_view(), name='home')
-Including another URLconf
-    1. Import the include() function: from django.urls import include, path
-    2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
-"""
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
+from service_ticket.urls import ticket_router
+from service_call.urls import call_router
+from service_request.urls import request_router
+from service_report.urls import report_router
+from service_billing.urls import billing_router
+from service_analysis.urls import analysis_router
+from service_order.urls import order_item_router
+from service_delivery_order.urls import delivery_order_router
+from after_analysis.urls import after_analysis_router
+from warranty_renewal.urls import renewal_router
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path("admin/", admin.site.urls),
+    path("", include(ticket_router.urls)),  
+    path("", include(call_router.urls)),
+    path("", include(request_router.urls)),
+    path("", include(report_router.urls)),
+    path("", include(billing_router.urls)), 
+    path("", include(analysis_router.urls)),
+    path("", include(order_item_router.urls)),
+    path("", include(delivery_order_router.urls)),
+    path("", include(after_analysis_router.urls)),
+    path("", include(renewal_router.urls)),
+    path("", include('service_call.urls')),
+    path("", include('service_ticket.urls')),
+    path("", include('service_contract.urls')),
+    path("", include('service_request.urls')),
+    path("", include('service_report.urls')),
+    path("", include('service_billing.urls')),
+    path("", include('service_analysis.urls')),  
+    path("", include('service_order.urls')),    
+    path("", include('service_delivery_order.urls')),
+    path("", include('after_analysis.urls')),
+    path("", include('warranty_renewal.urls')),
 ]
