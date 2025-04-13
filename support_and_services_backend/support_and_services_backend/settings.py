@@ -25,8 +25,11 @@ SECRET_KEY = 'django-insecure-sru$k4o7t(jo%fh_c^glrc42vd_c^r9)2e@5d8#x^@3o)z$ma+
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
-
+ALLOWED_HOSTS = [
+    "localhost",
+    "127.0.0.1",
+    "bbb4syjxj5.execute-api.ap-southeast-1.amazonaws.com",
+]
 
 # Application definition
 
@@ -38,7 +41,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    "connection",
     "service_ticket",
     "service_call",
     "service_request",
@@ -50,6 +52,7 @@ INSTALLED_APPS = [
     "service_billing",
     "after_analysis",
     "warranty_renewal",
+    "connection",
 
     "rest_framework",
     "corsheaders",
@@ -111,17 +114,29 @@ WSGI_APPLICATION = 'support_and_services_backend.wsgi.application'
 #     }
 # }
 
+import os
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kinetiq-test-schema', # test db, not the db team's db
-        'USER': 'postgres',
-        'PASSWORD': 'lansservices',
-        'HOST': 'localhost',
-        'PORT': '5432',
-        #'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
+        'NAME': os.getenv('DB_NAME', 'Kinetiq-DB'),
+        'USER': os.getenv('DB_USER', 'postgres'),
+        'PASSWORD': os.getenv('DB_PASSWORD', 'KntBg3jIY0DbpH8G9bwt'),
+        'HOST': os.getenv('DB_HOST', '127.0.0.1'),
+        'PORT': os.getenv('DB_PORT', '15432'),
     }
 }
+
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'kinetiq-test-schema', # test db, not the db team's db
+#         'USER': 'postgres',
+#         'PASSWORD': 'lansservices',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#         #'OPTIONS': {'options': '-c search_path=sales,services,human_resources,public'}
+#     }
+# }
 
 
 # Password validation
