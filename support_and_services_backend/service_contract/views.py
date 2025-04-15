@@ -45,21 +45,9 @@ def get_additional_service_list(request, additional_service_id):
 @api_view(['GET'])
 def get_filtered_renewals(request, contract_id): 
     """get renewals filtered by contract_id"""
-    contracts = WarrantyRenewal.objects.filter(contract_id=contract_id)
-    serializer = WarrantyRenewalSerializer(contracts, many=True)
+    renewals = WarrantyRenewal.objects.filter(contract_id=contract_id)
+    serializer = WarrantyRenewalSerializer(renewals, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['PATCH'])
-def update_contract(request, contract_id):
-    """updates a service contract partially"""
-    contract = get_object_or_404(ServiceContract, contract_id=contract_id)
-    serializer = ContractSerializer(contract, data=request.data, partial=True)  # partial allows partial update iykyk
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_statement_list(request):

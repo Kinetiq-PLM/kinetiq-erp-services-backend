@@ -27,38 +27,28 @@ class ServiceCallViewSet(ModelViewSet):
         serializer = ServiceCallSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
     
-@api_view(['GET'])
-def get_call(request, service_call_id):
-    """fetches a single service call"""
-    service_call = get_object_or_404(ServiceCall, service_call_id=service_call_id)
-    serializer = ServiceCallSerializer(service_call)
+    def create(self, request, *args, **kwargs):
+        serializer = ServiceCallSerializer(data=request.data)
+        
+        if serializer.is_valid():
+            service_call = serializer.save()  
+            return Response(ServiceCallSerializer(service_call).data, status=status.HTTP_201_CREATED)
+        
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
-    return Response(serializer.data, status=status.HTTP_200_OK)
 
-@api_view(['PATCH'])
-def update_service_call(request, service_call_id):
-    """updates a service call partially"""
-    service_call = get_object_or_404(ServiceCall, service_call_id=service_call_id)
+# @api_view(['PATCH'])
+# def update_service_call(request, service_call_id):
+#     """updates a service call partially"""
+#     service_call = get_object_or_404(ServiceCall, service_call_id=service_call_id)
     
-    serializer = ServiceCallSerializer(service_call, data=request.data, partial=True)  # partial allows partial update iykyk
+#     serializer = ServiceCallSerializer(service_call, data=request.data, partial=True)  # partial allows partial update iykyk
 
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
+#     if serializer.is_valid():
+#         serializer.save()
+#         return Response(serializer.data, status=status.HTTP_200_OK)
     
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
-@api_view(['POST'])
-def create_service_call(request):
-    """queue a ticket (service call)"""
-    serializer = ServiceCallSerializer(data=request.data)
-    
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_201_CREATED)
-    
-    #print(serializer.errors) 
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_technicians(request):

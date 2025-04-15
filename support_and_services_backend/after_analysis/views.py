@@ -26,15 +26,3 @@ def get_after_analysis(request, analysis_id):
     analysis_sched = get_object_or_404(AfterAnalysis, analysis_id=analysis_id)
     serializer = AfterAnalysisSerializer(analysis_sched)
     return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['PATCH'])
-def update_after_analysis(request, analysis_sched_id):
-    """updates a after analysis partially"""
-    analysis_sched = get_object_or_404(AfterAnalysis, analysis_sched_id=analysis_sched_id)
-    serializer = AfterAnalysisSerializer(analysis_sched, data=request.data, partial=True)  # partial allows partial update iykyk
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

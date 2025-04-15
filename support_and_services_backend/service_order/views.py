@@ -38,8 +38,8 @@ class ServiceOrderItemViewSet(ModelViewSet):
 @api_view(['GET'])
 def get_order(request, analysis_id):
     """get single order data from service analysis"""
-    service_order = get_object_or_404(ServiceOrder, analysis_id=analysis_id)
-    serializer = ServiceOrderSerializer(service_order)
+    service_orders = ServiceOrder.objects.filter(analysis_id=analysis_id)
+    serializer = ServiceOrderSerializer(service_orders, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
@@ -69,15 +69,3 @@ def get_inventory_items(request):
     item = InventoryItemMD.objects.all()  
     serializer = InventoryItemMDSerializer(item, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
-
-@api_view(['PATCH'])
-def update_order_item(request, service_order_item_id):
-    """updates a service order item partially"""
-    service_order_item = get_object_or_404(ServiceOrderItem, service_order_item_id=service_order_item_id)
-    serializer = ServiceOrderItemSerializer(service_order_item, data=request.data, partial=True)  # partial allows partial update iykyk
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)

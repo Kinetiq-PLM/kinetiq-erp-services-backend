@@ -34,8 +34,6 @@ class ServiceCall(models.Model):
     def save(self, *args, **kwargs):
         if self.contract and self.contract.end_date:
             self.end_date = self.contract.end_date  
-        if self.service_ticket:
-            self.priority_level = self.service_ticket.priority  
 
         super().save(*args, **kwargs) 
 
