@@ -1,12 +1,11 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import ServiceRequestViewSet, create_service_request, update_service_request, get_filtered_requests
+from .views import ServiceRequestViewSet, get_filtered_requests, get_filtered_requests_tech
 
 request_router = DefaultRouter()
-request_router.register(r'service-requests', ServiceRequestViewSet, basename='service-request')
+request_router.register(r'', ServiceRequestViewSet, basename='service-request')
 
 urlpatterns = request_router.urls + [
-    path('create-request/', create_service_request, name='create-request'),
-    path('service-requests/<str:service_request_id>/update/', update_service_request, name='update-service-request'),
-    path('service-requests/<str:service_call_id>/call/', get_filtered_requests, name='get-service-request'),
+    path('call/<str:service_call_id>/', get_filtered_requests, name='get-service-request'),
+    path('requests/technician/<str:technician_id>/', get_filtered_requests_tech, name='get-service-request'),
 ]

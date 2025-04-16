@@ -3,10 +3,9 @@ from rest_framework.routers import DefaultRouter
 from .views import *
 
 analysis_router = DefaultRouter()
-analysis_router.register(r'service-analyses', ServiceAnalysisViewSet, basename='service-analysis')
+analysis_router.register(r'', ServiceAnalysisViewSet, basename='service-analysis')
 
 urlpatterns = analysis_router.urls  + [
-    path('service-analyses/<str:service_analysis_id>/', get_service_analysis, name='analysis-detail'),
-    path('service-analyses/<str:analysis_id>/update/', update_service_analysis, name='update-analysis'),
-    path('analyses-billing/<str:service_request_id>/', get_filtered_analyses, name='filtered-analyses'),
+    path('request/<str:service_request_id>/', get_filtered_analyses, name='filtered-analyses'),
+    path('analyses/technician/<str:technician_id>/', get_filtered_analyses_tech, name='filtered-analyses'),
 ]

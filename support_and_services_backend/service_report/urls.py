@@ -1,12 +1,10 @@
 from django.urls import path
 from rest_framework.routers import DefaultRouter
-from .views import ServiceReportViewSet, get_service_report, create_service_report, update_service_report
+from .views import ServiceReportViewSet, get_filtered_report_tech
 
 report_router = DefaultRouter()
-report_router.register(r'service-reports', ServiceReportViewSet, basename='service-report')
+report_router.register(r'', ServiceReportViewSet, basename='service-report')
 
 urlpatterns = report_router.urls + [
-     path('service-reports/<str:service_report_id>/', get_service_report, name='report-detail'),
-     path('create-report/', create_service_report, name='create-report'),
-     path('service-reports/<str:report_id>/update/', update_service_report, name='update-report'),
+    path('reports/technician/<str:technician_id>/', get_filtered_report_tech, name='filtered-report-tech'),
 ]

@@ -6,6 +6,7 @@ from .models import ServiceBilling
 from .serializers import *
 from django.shortcuts import get_object_or_404
 from connection.models import OpCost
+from django.db.models import Q
 
 class ServiceBillingViewSet(ModelViewSet):
     queryset = ServiceBilling.objects.all()
@@ -26,18 +27,6 @@ class ServiceBillingViewSet(ModelViewSet):
             return Response(ServiceBillingSerializer(service_billing).data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['PATCH'])
-def update_billing(request, service_billing_id):
-    """updates a service billing partially"""
-    service_billing = get_object_or_404(ServiceBilling, service_billing_id=service_billing_id)
-    serializer = ServiceBillingSerializer(service_billing, data=request.data, partial=True)  # partial allows partial update iykyk
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_all_op_costs(request):
@@ -64,5 +53,15 @@ def get_filtered_bill_renewal(request, renewal_id):
 def get_filtered_bill_request(request, service_request_id): 
     """get billings filtered by renewal"""
     billings = ServiceBilling.objects.filter(service_request_id=service_request_id)
+    serializer = ServiceBillingSerializer(billings, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_bill_tech(request, technician_id):
+    """Filter ServiceBilling by technician_id from request or renewal path"""
+    billings = ServiceBilling.objects.filter(
+        Q(service_request__technician__employee_id=technician_id) |
+        Q(renewal__service_call__technician__employee_id=technician_id)
+    )
     serializer = ServiceBillingSerializer(billings, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

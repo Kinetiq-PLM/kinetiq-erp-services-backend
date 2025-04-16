@@ -1,11 +1,16 @@
 from rest_framework import serializers
 from .models import ServiceBilling
-from connection.models import Customer, OpCost
+from connection.models import Customer, OpCost, Employee
 from service_call.models import ServiceCall
 from service_request.models import ServiceRequest
 from warranty_renewal.models import WarrantyRenewal
 from service_analysis.models import ServiceAnalysis
 from service_order.models import ServiceOrder
+
+class EmployeeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Employee
+        fields = ['employee_id', 'first_name', 'last_name']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,21 +21,29 @@ class ServiceCallSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source="customer", write_only=True
     )
-    customer = CustomerSerializer(read_only=True)  
+    customer = CustomerSerializer(read_only=True) 
+    technician_id = serializers.PrimaryKeyRelatedField(
+        queryset=Employee.objects.all(), source="technician", write_only=True
+    )
+    technician = EmployeeSerializer(read_only=True) 
 
     class Meta:
         model = ServiceCall
-        fields = ['service_call_id', 'customer', 'customer_id']
+        fields = ['service_call_id', 'customer', 'customer_id', 'technician', 'technician_id']
 
 class ServiceRequestSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source="customer", write_only=True
     )
     customer = CustomerSerializer(read_only=True)  
+    technician_id = serializers.PrimaryKeyRelatedField(
+        queryset=Employee.objects.all(), source="technician", write_only=True
+    )
+    technician = EmployeeSerializer(read_only=True) 
 
     class Meta:
         model = ServiceRequest
-        fields = ['service_request_id', 'customer', 'customer_id', 'request_type']
+        fields = ['service_request_id', 'customer', 'customer_id', 'request_type', 'technician', 'technician_id']
 
 class WarrantyRenewalSerializer(serializers.ModelSerializer):
     service_call_id = serializers.PrimaryKeyRelatedField(

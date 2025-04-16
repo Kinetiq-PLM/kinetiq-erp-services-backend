@@ -24,31 +24,17 @@ class ServiceAnalysisViewSet(ModelViewSet):
             return Response(ServiceAnalysisSerializer(analysis).data, status=status.HTTP_201_CREATED)
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-@api_view(['GET'])
-def get_service_analysis(request, service_analysis_id):
-    """Fetches a single service analysis"""
-    analysis = get_object_or_404(ServiceAnalysis, service_analysis_id=service_analysis_id)
-    serializer = ServiceAnalysisSerializer(analysis)
-    
-    return Response(serializer.data, status=status.HTTP_200_OK)
-
-@api_view(['PATCH'])
-def update_service_analysis(request, analysis_id):
-    """updates a service analysis partially"""
-    analysis = get_object_or_404(ServiceAnalysis, analysis_id=analysis_id)
-    
-    serializer = ServiceAnalysisSerializer(analysis, data=request.data, partial=True)  # partial allows partial update iykyk
-
-    if serializer.is_valid():
-        serializer.save()
-        return Response(serializer.data, status=status.HTTP_200_OK)
-    
-    return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
 @api_view(['GET'])
 def get_filtered_analyses(request, service_request_id): 
     """get renewals filtered by service_request_id"""
     analyses = ServiceAnalysis.objects.filter(service_request_id=service_request_id)
     serializer = ServiceAnalysisSerializer(analyses, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_analyses_tech(request, technician_id):
+    """Get all employees with tech id"""
+    analyses = ServiceAnalysis.objects.filter(technician_id=technician_id)  
+    serializer = ServiceAnalysisSerializer(analyses, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK)
