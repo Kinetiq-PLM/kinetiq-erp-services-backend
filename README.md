@@ -70,4 +70,4 @@ python manage.py runserver
 python manage.py runserver 8001
 ```
 
-# URLs listed in urls.py can now be used to connect to frontend
+URLs listed in urls.py can now be used to connect to frontend
