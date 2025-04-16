@@ -23,3 +23,9 @@ def get_filtered_renewal(request, service_call_id):
     serializer = WarrantyRenewalSerializer(renewals, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_filtered_renewal_tech(request, technician_id):
+    """Get all employees with tech id"""
+    renewals = WarrantyRenewal.objects.filter(service_call__technician_id=technician_id)  
+    serializer = WarrantyRenewalSerializer(renewals, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK)

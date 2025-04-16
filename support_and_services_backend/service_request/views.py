@@ -23,3 +23,10 @@ def get_filtered_requests(request, service_call_id):
     serializer = ServiceRequestSerializer(service_requests, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
+@api_view(['GET'])
+def get_filtered_requests_tech(request, technician_id):
+    """get requests filtered by technician_id"""
+    service_requests = ServiceRequest.objects.filter(technician_id=technician_id)
+    serializer = ServiceRequestSerializer(service_requests, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+

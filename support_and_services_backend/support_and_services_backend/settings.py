@@ -129,7 +129,7 @@ WSGI_APPLICATION = 'support_and_services_backend.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'kinetiq-test-schema', # test db, not the db team's db
+        'NAME': 'rds-local', # test db, not the db team's db
         'USER': 'postgres',
         'PASSWORD': 'lansservices',
         'HOST': 'localhost',

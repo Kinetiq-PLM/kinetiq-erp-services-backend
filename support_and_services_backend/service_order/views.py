@@ -50,13 +50,6 @@ def get_order_items(request, service_order_id):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_items(request):
-    """get all items"""
-    item = ItemMasterData.objects.all()  
-    serializer = ItemSerializer(item, many=True)  
-    return Response(serializer.data, status=status.HTTP_200_OK) 
-
-@api_view(['GET'])
 def get_principal_items(request, service_order_item_id):
     """get all principal items filtered by service order item id"""
     items = PrincipalItem.objects.filter(service_order_item_id=service_order_item_id)  
@@ -66,6 +59,6 @@ def get_principal_items(request, service_order_item_id):
 @api_view(['GET'])
 def get_inventory_items(request):
     """get all items from inventory"""
-    item = InventoryItemMD.objects.all()  
+    item = InventoryItemMD.objects.filter(item_type__in=["Raw Material", "Product"])
     serializer = InventoryItemMDSerializer(item, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 

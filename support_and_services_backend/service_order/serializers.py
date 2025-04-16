@@ -28,15 +28,40 @@ class ServiceOrderSerializer(serializers.ModelSerializer):
         model = ServiceOrder
         fields = "__all__"
 
-class ItemMDSerializer(serializers.ModelSerializer):
+class ProductSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Product
+        fields = ['product_id', 'product_name', 'selling_price']
+
+class ProductDocuSerializer(serializers.ModelSerializer):
+    product_id = serializers.PrimaryKeyRelatedField(
+        queryset=Product.objects.all(), source="product", write_only=True
+    )
+    product = ProductSerializer(read_only=True)  
+
+    class Meta:
+        model = ProductDocumentItem
+        fields = "__all__"
+
+class RawMaterialSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = RawMaterial
+        fields = "__all__"
+
+class InventoryItemMDSerializer(serializers.ModelSerializer):
+    productdocu_id = serializers.PrimaryKeyRelatedField(
+        queryset=ProductDocumentItem.objects.all(), source="productdocu", write_only=True
+    )
+    productdocu = ProductDocuSerializer(read_only=True)  
+
+    material_id = serializers.PrimaryKeyRelatedField(
+        queryset=RawMaterial.objects.all(), source="material", write_only=True
+    )
+    material = RawMaterialSerializer(read_only=True)  
+
     class Meta:
         model = InventoryItemMD
-        fields = ['item_md_id']
-
-class ItemSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = ItemMasterData
-        fields = ['item_id', 'item_name']
+        fields = "__all__"
 
 class PrincipalItemSerializer(serializers.ModelSerializer):
     class Meta:
@@ -50,9 +75,9 @@ class ServiceOrderItemSerializer(serializers.ModelSerializer):
     service_order = ServiceOrderSerializer(read_only=True)  
 
     item_id = serializers.PrimaryKeyRelatedField(
-        queryset=ItemMasterData.objects.all(), source="item", write_only=True
+        queryset=InventoryItemMD.objects.all(), source="item", write_only=True
     )
-    item = ItemSerializer(read_only=True)  
+    item = InventoryItemMDSerializer(read_only=True)  
 
     principal_item_id = serializers.PrimaryKeyRelatedField(
         queryset=PrincipalItem.objects.all(), source="principal_item", write_only=True, required=False, allow_null=True
@@ -63,12 +88,3 @@ class ServiceOrderItemSerializer(serializers.ModelSerializer):
         model = ServiceOrderItem
         fields = "__all__"
 
-class InventoryItemMDSerializer(serializers.ModelSerializer):
-    item_id = serializers.PrimaryKeyRelatedField(
-        queryset=ItemMasterData.objects.all(), source="item", write_only=True
-    )
-    item = ItemSerializer(read_only=True)  
-
-    class Meta:
-        model = InventoryItemMD
-        fields = "__all__"

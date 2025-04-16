@@ -23,7 +23,6 @@ class Statement(models.Model):
     salesrep = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)
     total_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)  
     discount = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)  
-    type = models.TextField() 
     total_tax = models.IntegerField(default=0)
 
 class Order(models.Model):

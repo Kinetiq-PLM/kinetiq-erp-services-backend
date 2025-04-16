@@ -26,20 +26,3 @@ class ServiceContract(models.Model):
     product_quantity = models.IntegerField(default=1) 
     renewal_date = models.DateField(blank=True, null=True) 
     renewal_end_date = models.DateField(blank=True, null=True) 
-
-    def save(self, *args, **kwargs):
-        if self.statement_item:
-            if self.statement_item.product:
-                self.product = self.statement_item.product  
-            if self.statement_item.additional_service:
-                self.additional_service = self.statement_item.additional_service  
-            if self.statement_item.quantity:
-                self.product_quantity = self.statement_item.quantity  
-
-        if self.renewal:
-            if self.renewal.renewal_warranty_start:
-                self.renewal_date = self.renewal.renewal_warranty_start  
-            if self.renewal.renewal_warranty_end:
-                self.renewal_end_date = self.renewal.renewal_warranty_end  
-
-        super().save(*args, **kwargs)

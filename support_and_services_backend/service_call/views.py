@@ -36,19 +36,19 @@ class ServiceCallViewSet(ModelViewSet):
         
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
     
+@api_view(['GET'])
+def get_support_specialist(request):
+    """Get all employees with position title 'Support Specialist'"""
+    technicians = Employee.objects.filter(position__position_title='Support Specialist')  
+    serializer = EmployeeSerializer(technicians, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
-# @api_view(['PATCH'])
-# def update_service_call(request, service_call_id):
-#     """updates a service call partially"""
-#     service_call = get_object_or_404(ServiceCall, service_call_id=service_call_id)
-    
-#     serializer = ServiceCallSerializer(service_call, data=request.data, partial=True)  # partial allows partial update iykyk
-
-#     if serializer.is_valid():
-#         serializer.save()
-#         return Response(serializer.data, status=status.HTTP_200_OK)
-    
-#     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+@api_view(['GET'])
+def get_field_techs(request):
+    """Get all employees with position title 'Field'"""
+    technicians = Employee.objects.filter(position__position_title='Field Service Technician')  
+    serializer = EmployeeSerializer(technicians, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def get_technicians(request):
@@ -69,4 +69,11 @@ def get_filtered_calls(request, service_ticket_id):
     """get calls filtered by ticket id"""
     service_calls = ServiceCall.objects.filter(service_ticket_id=service_ticket_id)
     serializer = ServiceCallSerializer(service_calls, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_calls_tech(request, technician_id):
+    """get calls filtered by technician_id"""
+    calls = ServiceCall.objects.filter(technician_id=technician_id)
+    serializer = ServiceCallSerializer(calls, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)

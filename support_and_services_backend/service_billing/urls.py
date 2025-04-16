@@ -10,4 +10,5 @@ urlpatterns = billing_router.urls + [
     path('orders/<str:analysis_id>/', get_orders, name='orders '),
     path('billing-renewals/<str:renewal_id>/', get_filtered_bill_renewal, name='filtered-bill-renewal'),
     path('billing-requests/<str:service_request_id>/', get_filtered_bill_request, name='filtered-bill-request'),
+    path('billings/technician/<str:technician_id>/', get_filtered_bill_tech, name='filtered-bill-tech'),
 ]

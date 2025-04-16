@@ -31,3 +31,10 @@ def get_filtered_analyses(request, service_request_id):
     analyses = ServiceAnalysis.objects.filter(service_request_id=service_request_id)
     serializer = ServiceAnalysisSerializer(analyses, many=True)
     return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_analyses_tech(request, technician_id):
+    """Get all employees with tech id"""
+    analyses = ServiceAnalysis.objects.filter(technician_id=technician_id)  
+    serializer = ServiceAnalysisSerializer(analyses, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK)

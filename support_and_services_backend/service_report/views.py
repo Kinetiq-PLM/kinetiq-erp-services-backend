@@ -15,3 +15,10 @@ class ServiceReportViewSet(ModelViewSet):
         queryset = self.get_queryset()
         serializer = ServiceReportSerializer(queryset, many=True)
         return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_report_tech(request, technician_id):
+    """Filter report by technician_id"""
+    reports = ServiceReport.objects.filter(technician_id=technician_id)
+    serializer = ServiceReportSerializer(reports, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)

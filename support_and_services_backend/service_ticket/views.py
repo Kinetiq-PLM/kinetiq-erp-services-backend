@@ -39,3 +39,10 @@ def get_customers(request):
     customer = Customer.objects.all()  
     serializer = CustomerSerializer(customer, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
+
+@api_view(['GET'])
+def get_filtered_tickets(request, salesrep_id):
+    """get tix filtered by salesrep_id"""
+    tickets = Ticket.objects.filter(salesrep_id=salesrep_id)
+    serializer = TicketSerializer(tickets, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
