@@ -39,14 +39,21 @@ class ServiceCallViewSet(ModelViewSet):
 @api_view(['GET'])
 def get_support_specialist(request):
     """Get all employees with position title 'Support Specialist'"""
-    technicians = Employee.objects.filter(position__position_title='Support Specialist')  
+    technicians = Employee.objects.filter(position__position_id='REG-2504-d563')  
     serializer = EmployeeSerializer(technicians, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
 def get_field_techs(request):
-    """Get all employees with position title 'Field'"""
-    technicians = Employee.objects.filter(position__position_title='Field Service Technician')  
+    """Get all employees with position title 'Field Service Technician'"""
+    technicians = Employee.objects.filter(position__position_id='REG-2504-955e')  
+    serializer = EmployeeSerializer(technicians, many=True)  
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_help_desk_agents (request):
+    """Get all employees with position title 'Help Desk Agent'"""
+    technicians = Employee.objects.filter(position__position_id='REG-2504-51bd')  
     serializer = EmployeeSerializer(technicians, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK)
 
