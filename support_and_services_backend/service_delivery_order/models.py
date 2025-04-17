@@ -16,5 +16,5 @@ class DeliveryOrder(models.Model):
     customer = models.ForeignKey('connection.Customer', on_delete=models.CASCADE)
     customer_address = models.TextField(blank=True, null=True)
     delivery_status = models.CharField(max_length=20, choices=DelStatusEnum.choices,  default=DelStatusEnum.PENDING)
-    delivery_date = models.DateField(auto_now=True)
+    delivery_date = models.DateField()
 
