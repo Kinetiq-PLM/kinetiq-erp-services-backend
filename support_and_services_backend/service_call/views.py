@@ -58,6 +58,31 @@ def get_help_desk_agents(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+def get_mat_planners(request):
+    """Get all employees with position title 'Materials Planner'"""
+    employees = Employee.objects.filter(position__position_id='REG-2504-35c9')  
+    users = Users.objects.filter(employee_id__in=employees)
+    serializer = UsersSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_management_employees(request):
+    """Get all management employees with correct pos IDs"""
+    position_ids = ['REG-2504-64ac', 'REG-2504-8228', 'REG-2504-d211']
+    employees = Employee.objects.filter(position__position_id__in=position_ids)
+    users = Users.objects.filter(employee_id__in=employees)
+    serializer = UsersSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_distrib_manager(request):
+    """Get all distrib manager"""
+    employees = Employee.objects.filter(position__position_id='REG-2504-d503')  
+    users = Users.objects.filter(employee_id__in=employees)
+    serializer = UsersSerializer(users, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
 def get_technicians(request):
     """get all the employees"""
     technicians = Employee.objects.all()  

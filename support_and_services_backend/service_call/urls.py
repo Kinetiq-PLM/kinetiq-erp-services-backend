@@ -6,9 +6,16 @@ call_router = DefaultRouter()
 call_router.register(r'', ServiceCallViewSet, basename='service-call')
 
 urlpatterns = call_router.urls + [
+    # technicians
     path('calls/support-specialists/', get_support_specialist, name='get-support-specialist'),
     path('calls/field-techs/', get_field_techs, name='get-field-techs'),
     path('calls/help-desks/', get_help_desk_agents, name='get-help-desks'),
+
+    # other employees
+    path('calls/mat-planners/', get_mat_planners, name='get-mat-planners'),
+    path('calls/management-employees/', get_management_employees, name='get-management-employees'),
+    path('calls/distrib-manager/', get_distrib_manager, name='get-distrib-manager'),
+
     path('calls/technicians/', get_technicians, name='get-technicians'),
     path('calls/technician/<str:technician_id>/', get_filtered_calls_tech, name='get-technicians'),
     path('calls/products/', get_products, name='get-products'),
