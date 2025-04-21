@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ServiceCall
-from connection.models import Employee, Product, Customer
+from connection.models import Employee, Product, Customer, Users
 from service_ticket.models import Ticket
 from service_contract.models import ServiceContract
 
@@ -54,3 +54,7 @@ class ServiceCallSerializer(serializers.ModelSerializer):
         fields = "__all__"
 
 
+class UsersSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Users
+        fields = ['user_id', 'employee_id']

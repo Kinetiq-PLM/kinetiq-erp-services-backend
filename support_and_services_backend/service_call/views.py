@@ -4,8 +4,8 @@ from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import ServiceCall
-from connection.models import Employee, Product
-from .serializers import ServiceCallSerializer, EmployeeSerializer, ProductSerializer
+from connection.models import Employee, Product, Users
+from .serializers import *
 from datetime import datetime
 
 class ServiceCallViewSet(ModelViewSet):
@@ -51,7 +51,7 @@ def get_field_techs(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
-def get_help_desk_agents (request):
+def get_help_desk_agents(request):
     """Get all employees with position title 'Help Desk Agent'"""
     technicians = Employee.objects.filter(position__position_id='REG-2504-51bd')  
     serializer = EmployeeSerializer(technicians, many=True)  
@@ -83,4 +83,11 @@ def get_filtered_calls_tech(request, technician_id):
     """get calls filtered by technician_id"""
     calls = ServiceCall.objects.filter(technician_id=technician_id)
     serializer = ServiceCallSerializer(calls, many=True)
+    return Response(serializer.data, status=status.HTTP_200_OK)
+
+@api_view(['GET'])
+def get_filtered_user_tech(request, employee_id):
+    """get user based on employee id"""
+    user = Users.objects.get(employee_id=employee_id)
+    serializer = UsersSerializer(user)
     return Response(serializer.data, status=status.HTTP_200_OK)
