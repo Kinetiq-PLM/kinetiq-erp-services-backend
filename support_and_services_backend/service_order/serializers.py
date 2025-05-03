@@ -28,6 +28,11 @@ class ServiceOrderSerializer(serializers.ModelSerializer):
         model = ServiceOrder
         fields = "__all__"
 
+class WarehouseSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Warehouse
+        fields = "__all__"
+
 class ItemMasterDataSerializer(serializers.ModelSerializer):
     class Meta:
         model = ItemMasterData
@@ -38,6 +43,10 @@ class InventoryItemMDSerializer(serializers.ModelSerializer):
         queryset=ItemMasterData.objects.all(), source="item", write_only=True
     )
     item = ItemMasterDataSerializer(read_only=True)  
+    warehouse_id = serializers.PrimaryKeyRelatedField(
+        queryset=Warehouse.objects.all(), source="warehouse", write_only=True, required=False, allow_null=True
+    )
+    warehouse = WarehouseSerializer(read_only=True) 
 
     class Meta:
         model = InventoryItemMD
@@ -63,6 +72,11 @@ class ServiceOrderItemSerializer(serializers.ModelSerializer):
         queryset=PrincipalItem.objects.all(), source="principal_item", write_only=True, required=False, allow_null=True
     )
     principal_item = PrincipalItemSerializer(read_only=True)  
+
+    warehouse_id = serializers.PrimaryKeyRelatedField(
+        queryset=Warehouse.objects.all(), source="warehouse", write_only=True, required=False, allow_null=True
+    )
+    warehouse = WarehouseSerializer(read_only=True)  
 
     class Meta:
         model = ServiceOrderItem

@@ -29,3 +29,4 @@ class ServiceOrderItem(models.Model):
     item_quantity = models.IntegerField(default=1)
     item_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
     total_price = models.DecimalField(max_digits=10, decimal_places=2, null=True, blank=True)
+    warehouse = models.ForeignKey('connection.Warehouse', on_delete=models.CASCADE, null=True, blank=True)

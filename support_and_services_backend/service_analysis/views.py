@@ -27,9 +27,13 @@ class ServiceAnalysisViewSet(ModelViewSet):
 
 @api_view(['GET'])
 def get_filtered_analyses(request, service_request_id): 
-    """get renewals filtered by service_request_id"""
-    analyses = ServiceAnalysis.objects.filter(service_request_id=service_request_id)
-    serializer = ServiceAnalysisSerializer(analyses, many=True)
+    """Get the first analysis filtered by service_request_id"""
+    analysis = ServiceAnalysis.objects.filter(service_request_id=service_request_id).first()
+    
+    if analysis is None:
+        return Response({'detail': 'Not found.'}, status=status.HTTP_404_NOT_FOUND)
+    
+    serializer = ServiceAnalysisSerializer(analysis)
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
