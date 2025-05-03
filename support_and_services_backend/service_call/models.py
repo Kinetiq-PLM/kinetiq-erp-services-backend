@@ -20,7 +20,7 @@ class ServiceCall(models.Model):
     service_call_id = models.CharField(primary_key=True, max_length=255, editable=False)  
     date_created = models.DateTimeField(auto_now_add=True)
     service_ticket = models.ForeignKey(Ticket, on_delete=models.CASCADE)
-    product = models.ForeignKey('connection.Product', on_delete=models.CASCADE)
+    product = models.ForeignKey('connection.ItemMasterData', on_delete=models.CASCADE)
     customer = models.ForeignKey('connection.Customer', on_delete=models.CASCADE)
     call_type = models.CharField(max_length=20, choices=CallTypeEnum.choices, default=CallTypeEnum.INQUIRY)
     technician = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)

@@ -4,7 +4,7 @@ from rest_framework.decorators import api_view
 from django.shortcuts import get_object_or_404
 from rest_framework.response import Response
 from .models import ServiceCall
-from connection.models import Employee, Product, Users
+from connection.models import Employee, ItemMasterData, Users
 from .serializers import *
 from datetime import datetime
 
@@ -92,8 +92,8 @@ def get_technicians(request):
 @api_view(['GET'])
 def get_products(request):
     """get all the products"""
-    products = Product.objects.all()  
-    serializer = ProductSerializer(products, many=True)  
+    products = ItemMasterData.objects.all()  
+    serializer = ItemMasterDataSerializer(products, many=True)  
     return Response(serializer.data, status=status.HTTP_200_OK) 
 
 @api_view(['GET'])

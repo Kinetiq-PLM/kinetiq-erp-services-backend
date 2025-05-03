@@ -19,7 +19,6 @@ urlpatterns = call_router.urls + [
     path('calls/technicians/', get_technicians, name='get-technicians'),
     path('calls/technician/<str:technician_id>/', get_filtered_calls_tech, name='get-technicians'),
     path('calls/products/', get_products, name='get-products'),
-    # path('calls/update/<str:service_call_id>/', update_service_call, name='update-service-call'),
     path('ticket/<str:service_ticket_id>/', get_filtered_calls, name='get-service-call'),
     path('calls/user/<str:employee_id>/', get_filtered_user_tech, name='get-user-employee'),
 ]

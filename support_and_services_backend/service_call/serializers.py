@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from .models import ServiceCall
-from connection.models import Employee, Product, Customer, Users
+from connection.models import Employee, ItemMasterData, Customer, Users
 from service_ticket.models import Ticket
 from service_contract.models import ServiceContract
 
@@ -9,10 +9,10 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = "__all__"
 
-class ProductSerializer(serializers.ModelSerializer):
+class ItemMasterDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name', 'selling_price']
+        model = ItemMasterData
+        fields = ['item_id', 'item_name']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -34,7 +34,7 @@ class ServiceCallSerializer(serializers.ModelSerializer):
         queryset=Customer.objects.all(), source='customer', write_only=True
     )
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source='product', write_only=True
+        queryset=ItemMasterData.objects.all(), source='product', write_only=True
     )
     service_ticket_id = serializers.PrimaryKeyRelatedField(
         queryset=Ticket.objects.all(), source='service_ticket', write_only=True
@@ -45,7 +45,7 @@ class ServiceCallSerializer(serializers.ModelSerializer):
     )
 
     customer = CustomerSerializer(read_only=True)
-    product = ProductSerializer(read_only=True)  
+    product = ItemMasterDataSerializer(read_only=True)  
     service_ticket = TicketSerializer(read_only=True) 
     contract = ContractSerializer(read_only=True) 
 

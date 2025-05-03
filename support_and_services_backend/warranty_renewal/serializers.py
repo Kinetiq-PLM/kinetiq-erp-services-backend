@@ -6,8 +6,8 @@ from connection.models import *
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name', 'selling_price']
+        model = ItemMasterData
+        fields = ['item_id', 'item_name']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -16,7 +16,7 @@ class CustomerSerializer(serializers.ModelSerializer):
 
 class ServiceCallSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source="product", write_only=True
+        queryset=ItemMasterData.objects.all(), source="product", write_only=True
     )
     product = ProductSerializer(read_only=True) 
 

@@ -16,7 +16,7 @@ class ServiceContract(models.Model):
     contract_id = models.CharField(primary_key=True, max_length=255, editable=False)  
     statement_item = models.ForeignKey('connection.StatementItem', on_delete=models.CASCADE)
     customer = models.ForeignKey('connection.Customer', on_delete=models.CASCADE)
-    product = models.ForeignKey('connection.Product', on_delete=models.CASCADE) 
+    product = models.ForeignKey('connection.ItemMasterData', on_delete=models.CASCADE) 
     contract_description = models.TextField(blank=True, null=True)
     date_issued = models.DateField(blank=True, null=True) # alr has a trigger
     end_date = models.DateField(blank=True, null=True) # alr has a trigger

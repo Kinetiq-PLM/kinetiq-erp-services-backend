@@ -19,10 +19,10 @@ class EmployeeSerializer(serializers.ModelSerializer):
         model = Employee
         fields = ['employee_id', 'first_name', 'last_name']
 
-class ProductSerializer(serializers.ModelSerializer):
+class ItemMasterDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name']
+        model = ItemMasterData
+        fields = ['item_id', 'item_name']
 
 class ServiceContractSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +40,7 @@ class ServiceAnalysisSerializer(serializers.ModelSerializer):
         queryset=Employee.objects.all(), source="technician", write_only=True
     ) 
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source="product", write_only=True
+        queryset=ItemMasterData.objects.all(), source="product", write_only=True
     )
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source="customer", write_only=True
@@ -49,7 +49,7 @@ class ServiceAnalysisSerializer(serializers.ModelSerializer):
     service_request = ServiceRequestSerializer(read_only=True) 
     contract = ServiceContractSerializer(read_only=True) 
     technician = EmployeeSerializer(read_only=True) 
-    product = ProductSerializer(read_only=True) 
+    product = ItemMasterDataSerializer(read_only=True) 
     customer = CustomerSerializer(read_only=True)
 
     class Meta:

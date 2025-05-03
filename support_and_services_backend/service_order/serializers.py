@@ -28,36 +28,16 @@ class ServiceOrderSerializer(serializers.ModelSerializer):
         model = ServiceOrder
         fields = "__all__"
 
-class ProductSerializer(serializers.ModelSerializer):
+class ItemMasterDataSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name', 'selling_price']
-
-class ProductDocuSerializer(serializers.ModelSerializer):
-    product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source="product", write_only=True
-    )
-    product = ProductSerializer(read_only=True)  
-
-    class Meta:
-        model = ProductDocumentItem
-        fields = "__all__"
-
-class RawMaterialSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = RawMaterial
+        model = ItemMasterData
         fields = "__all__"
 
 class InventoryItemMDSerializer(serializers.ModelSerializer):
-    productdocu_id = serializers.PrimaryKeyRelatedField(
-        queryset=ProductDocumentItem.objects.all(), source="productdocu", write_only=True
+    item_id = serializers.PrimaryKeyRelatedField(
+        queryset=ItemMasterData.objects.all(), source="item", write_only=True
     )
-    productdocu = ProductDocuSerializer(read_only=True)  
-
-    material_id = serializers.PrimaryKeyRelatedField(
-        queryset=RawMaterial.objects.all(), source="material", write_only=True
-    )
-    material = RawMaterialSerializer(read_only=True)  
+    item = ItemMasterDataSerializer(read_only=True)  
 
     class Meta:
         model = InventoryItemMD

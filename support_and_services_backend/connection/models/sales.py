@@ -44,6 +44,6 @@ class StatementItem(models.Model):
 
     statement_item_id = models.CharField(primary_key=True, max_length=255, editable=False)  
     statement = models.ForeignKey(Statement, on_delete=models.CASCADE)
-    product = models.ForeignKey("connection.Product", on_delete=models.CASCADE)
+    inventory_item = models.ForeignKey("connection.InventoryItemMD", on_delete=models.CASCADE)
     quantity = models.IntegerField(default=1)
     additional_service = models.ForeignKey('connection.AddsService', on_delete=models.CASCADE)

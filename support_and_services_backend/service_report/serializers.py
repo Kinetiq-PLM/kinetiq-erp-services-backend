@@ -44,8 +44,8 @@ class EmployeeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name']
+        model = ItemMasterData
+        fields = ['item_id', 'item_name']
 
 class ServiceBillingSerializer(serializers.ModelSerializer):
     class Meta:

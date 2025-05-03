@@ -10,8 +10,8 @@ class AddServiceTypeSerializer(serializers.ModelSerializer):
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
-        model = Product
-        fields = ['product_id', 'product_name']
+        model = ItemMasterData
+        fields = ['item_id', 'item_name']
 
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
@@ -40,7 +40,7 @@ class StatementSerializer(serializers.ModelSerializer):
 
 class StatementItemSerializer(serializers.ModelSerializer):
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source="product", write_only=True
+        queryset=ItemMasterData.objects.all(), source="product", write_only=True
     )
     product = ProductSerializer(read_only=True)  
 
@@ -60,7 +60,7 @@ class ContractSerializer(serializers.ModelSerializer):
     customer = CustomerSerializer(read_only=True)  
 
     product_id = serializers.PrimaryKeyRelatedField(
-        queryset=Product.objects.all(), source="product", write_only=True
+        queryset=ItemMasterData.objects.all(), source="product", write_only=True
     )
     product = ProductSerializer(read_only=True)  
 
