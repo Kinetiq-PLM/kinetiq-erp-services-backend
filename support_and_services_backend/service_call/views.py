@@ -45,6 +45,19 @@ def get_support_specialist(request):
     return Response(serializer.data, status=status.HTTP_200_OK)
 
 @api_view(['GET'])
+def get_support_specialist(request):
+    """Get employee with position title 'Support Specialist' with least open calls"""
+    technicians = Employee.objects.filter(position__position_id='REG-2504-d563') \
+        .annotate(active_calls=Count('servicecall', filter=Q(servicecall__call_status='Open'))) \
+        .order_by('active_calls')
+
+    if technicians.exists():
+        serializer = EmployeeSerializer(technicians, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({"detail": "No technician available."}, status=status.HTTP_404_NOT_FOUND)
+
+@api_view(['GET'])
 def get_field_techs(request):
     """Get employee with position title 'Field Service Technician' with least requests"""
     technicians = Employee.objects.filter(position__position_id='REG-2504-955e') \
@@ -59,10 +72,16 @@ def get_field_techs(request):
 
 @api_view(['GET'])
 def get_help_desk_agents(request):
-    """Get all employees with position title 'Help Desk Agent'"""
-    technicians = Employee.objects.filter(position__position_id='REG-2504-51bd')  
-    serializer = EmployeeSerializer(technicians, many=True)  
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    """Get employee with position title 'Help Desk Agent' with least open tickets"""
+    technicians = Employee.objects.filter(position__position_id='REG-2504-51bd') \
+        .annotate(active_tickets=Count('ticket', filter=Q(ticket__status='Open'))) \
+        .order_by('active_tickets')
+
+    if technicians.exists():
+        serializer = EmployeeSerializer(technicians, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({"detail": "No technician available."}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def get_mat_planners(request):

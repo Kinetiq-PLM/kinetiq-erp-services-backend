@@ -7,4 +7,5 @@ renewal_router.register(r'', WarrantyRenewalViewSet, basename='warranty-renewals
 urlpatterns = renewal_router.urls + [
      path('call/<str:service_call_id>/', get_filtered_renewal, name='filtered-renewal'),
      path('renewals/technician/<str:technician_id>/', get_filtered_renewal_tech, name='filtered-renewal'),
+     path('price/<str:item_id>/', get_price, name='price'),
 ]

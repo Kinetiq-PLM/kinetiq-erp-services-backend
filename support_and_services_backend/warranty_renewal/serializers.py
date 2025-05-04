@@ -15,6 +15,11 @@ class ProductSerializer(serializers.ModelSerializer):
         model = ItemMasterData
         fields = ['item_id', 'item_name']
 
+class PricingSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Pricing
+        fields = "__all__"
+
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
