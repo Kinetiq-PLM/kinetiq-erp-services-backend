@@ -4,7 +4,6 @@ from service_analysis.models import ServiceAnalysis
 class ServiceStatusEnum(models.TextChoices):
     SCHEDULED = "Scheduled"
     COMPLETED = "Completed"
-    CANCELLED = "Cancelled"
     IN_PROGRESS = "In Progress"
 
 class AfterAnalysis(models.Model):

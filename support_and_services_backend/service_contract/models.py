@@ -26,3 +26,4 @@ class ServiceContract(models.Model):
     product_quantity = models.IntegerField(default=1) 
     renewal_date = models.DateField(blank=True, null=True) 
     renewal_end_date = models.DateField(blank=True, null=True) 
+    date_created = models.DateField(blank=True, null=True) 

@@ -13,6 +13,15 @@ class ProductSerializer(serializers.ModelSerializer):
         model = ItemMasterData
         fields = ['item_id', 'item_name']
 
+class InventoryItemSerializer(serializers.ModelSerializer):
+    item_id = serializers.PrimaryKeyRelatedField(
+        queryset=ItemMasterData.objects.all(), source="item", write_only=True
+    )
+    item = ProductSerializer(read_only=True)  
+    class Meta:
+        model = InventoryItemMD
+        fields = "__all__"
+
 class CustomerSerializer(serializers.ModelSerializer):
     class Meta:
         model = Customer
@@ -39,10 +48,10 @@ class StatementSerializer(serializers.ModelSerializer):
         fields = ['statement_id', 'customer', 'customer_id']   
 
 class StatementItemSerializer(serializers.ModelSerializer):
-    product_id = serializers.PrimaryKeyRelatedField(
-        queryset=ItemMasterData.objects.all(), source="product", write_only=True
+    inventory_item_id = serializers.PrimaryKeyRelatedField(
+        queryset=InventoryItemMD.objects.all(), source="inventory_item", write_only=True
     )
-    product = ProductSerializer(read_only=True)  
+    inventory_item = InventoryItemSerializer(read_only=True)  
 
     statement_id = serializers.PrimaryKeyRelatedField(
         queryset=Statement.objects.all(), source="statement", write_only=True
@@ -65,7 +74,7 @@ class ContractSerializer(serializers.ModelSerializer):
     product = ProductSerializer(read_only=True)  
 
     additional_service_id = serializers.PrimaryKeyRelatedField(
-        queryset=AddsService.objects.all(), source="additional_service", write_only=True
+        queryset=AddsService.objects.all(), source="additional_service", write_only=True, allow_null=True
     )
     additional_service = AddsServiceSerializer(read_only=True) 
 
@@ -78,7 +87,6 @@ class ContractSerializer(serializers.ModelSerializer):
         queryset=StatementItem.objects.all(), source="statement_item", write_only=True
     )
     statement_item = StatementItemSerializer(read_only=True) 
-
 
     class Meta:
         model = ServiceContract

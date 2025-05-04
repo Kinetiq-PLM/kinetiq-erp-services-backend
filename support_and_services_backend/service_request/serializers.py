@@ -2,6 +2,12 @@ from rest_framework import serializers
 from .models import ServiceRequest
 from connection.models import Customer, Employee, ItemMasterData
 from service_call.models import ServiceCall
+from service_ticket.models import Ticket
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = "__all__"
 
 class EmployeeSerializer(serializers.ModelSerializer):
     class Meta:
@@ -25,9 +31,14 @@ class ServiceCallSerializer(serializers.ModelSerializer):
     )
     product = ProductSerializer(read_only=True) 
 
+    service_ticket_id = serializers.PrimaryKeyRelatedField(
+        queryset=Ticket.objects.all(), source="service_ticket", write_only=True
+    )
+    service_ticket = TicketSerializer(read_only=True) 
+
     class Meta:
         model = ServiceCall
-        fields = ['service_call_id', 'product', 'product_id']   
+        fields = ['service_call_id', 'product', 'product_id', 'service_ticket', 'service_ticket_id']   
 
 class ServiceRequestSerializer(serializers.ModelSerializer):
     customer_id = serializers.PrimaryKeyRelatedField(

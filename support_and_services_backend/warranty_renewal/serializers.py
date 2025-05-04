@@ -3,6 +3,12 @@ from .models import WarrantyRenewal
 from service_contract.models import ServiceContract
 from service_call.models import ServiceCall
 from connection.models import *
+from service_ticket.models import Ticket
+
+class TicketSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Ticket
+        fields = "__all__"
 
 class ProductSerializer(serializers.ModelSerializer):
     class Meta:
@@ -20,6 +26,11 @@ class ServiceCallSerializer(serializers.ModelSerializer):
     )
     product = ProductSerializer(read_only=True) 
 
+    service_ticket_id = serializers.PrimaryKeyRelatedField(
+        queryset=Ticket.objects.all(), source="service_ticket", write_only=True
+    )
+    service_ticket = TicketSerializer(read_only=True) 
+
     customer_id = serializers.PrimaryKeyRelatedField(
         queryset=Customer.objects.all(), source="customer", write_only=True
     )
@@ -27,7 +38,7 @@ class ServiceCallSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = ServiceCall
-        fields = ['service_call_id', 'product', 'product_id', 'customer', 'customer_id']
+        fields = ['service_call_id', 'product', 'product_id', 'customer', 'customer_id', 'service_ticket', 'service_ticket_id']   
 
 class ServiceContractSerializer(serializers.ModelSerializer):
     class Meta:

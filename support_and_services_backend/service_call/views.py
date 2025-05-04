@@ -7,6 +7,7 @@ from .models import ServiceCall
 from connection.models import Employee, ItemMasterData, Users
 from .serializers import *
 from datetime import datetime
+from django.db.models import Count, Q
 
 class ServiceCallViewSet(ModelViewSet):
     queryset = ServiceCall.objects.all()
@@ -45,10 +46,16 @@ def get_support_specialist(request):
 
 @api_view(['GET'])
 def get_field_techs(request):
-    """Get all employees with position title 'Field Service Technician'"""
-    technicians = Employee.objects.filter(position__position_id='REG-2504-955e')  
-    serializer = EmployeeSerializer(technicians, many=True)  
-    return Response(serializer.data, status=status.HTTP_200_OK)
+    """Get employee with position title 'Field Service Technician' with least requests"""
+    technicians = Employee.objects.filter(position__position_id='REG-2504-955e') \
+        .annotate(active_requests=Count('servicerequest')) \
+        .order_by('active_requests')
+
+    if technicians:
+        serializer = EmployeeSerializer(technicians, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
+    else:
+        return Response({"detail": "No technician available."}, status=status.HTTP_404_NOT_FOUND)
 
 @api_view(['GET'])
 def get_help_desk_agents(request):
