@@ -25,5 +25,5 @@ class ServiceReport(models.Model):
     technician = models.ForeignKey('connection.Employee', on_delete=models.CASCADE)
     description = models.TextField(blank=True, null=True)
     report_status = models.CharField(max_length=20, choices=RepStatusEnum.choices, default=RepStatusEnum.DRAFT)
-    submission_date = models.DateField(auto_now=True)
+    submission_date = models.DateTimeField(auto_now_add=True, blank=True, null=True)
 

@@ -12,4 +12,4 @@ class WarrantyRenewal(models.Model):
     renewal_warranty_start = models.DateField(blank=True, null=True)
     renewal_warranty_end = models.DateField(blank=True, null=True)
     renewal_fee = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
-    date_created = models.DateField(blank=True, null=True) 
+    date_created = models.DateTimeField(auto_now_add=True, blank=True, null=True)
